@@ -1,5 +1,6 @@
 # Unlocking Fine-Grained Details with Wavelet-based High-Frequency Enhancement in Transformers <br> <span style="float: right"><sub><sup>$\text{(\textcolor{teal}{MICCAI 2023})}$</sub></sup></span>
 
+<<<<<<< HEAD
 [![arXiv](https://img.shields.io/badge/arXiv-2309.00108-b31b1b.svg)](https://arxiv.org/abs/2309.00108)
 
 Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range of computer vision tasks. However, compared to the Convolutional Neural Network (CNN) models, it has been observed that the ViT models struggle to capture high-frequency components of images, which can limit their ability to detect local textures and edge information. As abnormalities in human tissue, such as tumors and lesions, may greatly vary in structure, texture, and shape, high-frequency information such as texture is crucial for effective semantic segmentation tasks. To address this limitation in ViT models, we propose a new technique, Laplacian-Former, that enhances the self-attention map by adaptively re-calibrating the frequency information in a Laplacian pyramid. More specifically, our proposed method utilizes a dual attention mechanism via efficient attention and frequency attention while the efficient attention mechanism reduces the complexity of self-attention to linear while producing the same output, selectively intensifies the contribution of shape and texture features. Furthermore, we introduce a novel efficient enhancement multi-scale bridge that effectively transfers spatial information from the encoder to the decoder while preserving the fundamental features. 
@@ -74,3 +75,6 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
 ## References
 - [DAEFormer](https://github.com/mindflow-institue/DAEFormer)
+=======
+Code coming soon ...
+>>>>>>> f1d3f3cf21934c7b8dff4ac180d8cf8141525e10
