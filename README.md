@@ -7,7 +7,7 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 <br>
 
 <p align="center">
-  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/6b223292-dad3-4e4d-835b-eea070626437" width="800">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/6b223292-dad3-4e4d-835b-eea070626437" width="700">
 </p>
 
 ## Citation
@@ -85,23 +85,13 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
   
 ## Experiments
-For evaluating the performance of the proposed method, two challenging tasks in medical image segmentation have been considered: Synapse Dataset and ISIC 2018 Dataset.
-
-### Synapse Dataset
+For evaluating the performance of the proposed method, two challenging tasks in medical image segmentation have been considered: Synapse Dataset and ISIC 2018 Dataset. The proposed Laplacian-Former achieves superior segmentation performance.
 
 <p align="center">
-  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/fdba1be4-9284-44f3-b95e-54be11f62d7f" width="800">
+  <img style="width: 69%;" alt="Synapse results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/061d903c-c075-44f2-ab08-52580dfbe296">
+  <img style="width: 30%;" alt="ISIC results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/0d1597ff-8372-4881-9b5d-d89a2ff02795">
 </p>
 
-<p align="center">
-  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/cf28ac49-fe3d-4cb4-be81-fb6fa9af688f" width="800">
-</p>
-
-### ISIC 2018 Dataset
-
-<p align="center">
-  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/3204a479-243f-4c06-896f-9bb7fa01f9ba" width="800">
-</p>
 
 
 ## References
