@@ -32,11 +32,13 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
 2) Run the following code to install the requirements.
 
-    `pip install -r requirements.txt`
+    ```python
+   pip install -r requirements.txt
+    ```
 
-3) Run the below code to train the model on the synapse dataset.
+4) Run the below code to train the model on the synapse dataset.
 
-    ```bash
+    ```python
     python train.py --root_path ./data/Synapse/train_npz --test_path ./data/Synapse/test_vol_h5  --batch_size 24 --eval_interval 20 --max_epochs 400 
    ```
    ```
@@ -68,7 +70,7 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 2) Run the below code to test the model on the synapse dataset.
   
     
-    ```bash
+    ```python
     python test.py --test_path ./data/Synapse/test_vol_h5 --is_savenii --pretrained_path './best_model.pth'
     ```
 
