@@ -89,7 +89,7 @@ For evaluating the performance of the proposed method, two challenging tasks in 
 
 <p align="center">
   <img style="width: 69%;" alt="Synapse results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/061d903c-c075-44f2-ab08-52580dfbe296">
-  <img style="width: 30%;" alt="ISIC results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/0d1597ff-8372-4881-9b5d-d89a2ff02795">
+  <img style="width: 30%;" alt="ISIC results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/44e3f784-47c1-4212-aa93-dc3cbc6b6485">
 </p>
 
 
