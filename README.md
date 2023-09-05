@@ -1,15 +1,29 @@
-# Unlocking Fine-Grained Details with Wavelet-based High-Frequency Enhancement in Transformers <br> <span style="float: right"><sub><sup>$\text{(\textcolor{teal}{MICCAI 2023})}$</sub></sup></span>
+# Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection <br> <span style="float: right"><sub><sup>$\text{\textcolor{teal}{MICCAI 2023}}$</sub></sup></span>
 
-<<<<<<< HEAD
 [![arXiv](https://img.shields.io/badge/arXiv-2309.00108-b31b1b.svg)](https://arxiv.org/abs/2309.00108)
 
-Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range of computer vision tasks. However, compared to the Convolutional Neural Network (CNN) models, it has been observed that the ViT models struggle to capture high-frequency components of images, which can limit their ability to detect local textures and edge information. As abnormalities in human tissue, such as tumors and lesions, may greatly vary in structure, texture, and shape, high-frequency information such as texture is crucial for effective semantic segmentation tasks. To address this limitation in ViT models, we propose a new technique, Laplacian-Former, that enhances the self-attention map by adaptively re-calibrating the frequency information in a Laplacian pyramid. More specifically, our proposed method utilizes a dual attention mechanism via efficient attention and frequency attention while the efficient attention mechanism reduces the complexity of self-attention to linear while producing the same output, selectively intensifies the contribution of shape and texture features. Furthermore, we introduce a novel efficient enhancement multi-scale bridge that effectively transfers spatial information from the encoder to the decoder while preserving the fundamental features. 
+Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range of computer vision tasks. However, compared to the Convolutional Neural Network (CNN) models, it has been observed that the ViT models struggle to capture high-frequency components of images, which can limit their ability to detect local textures and edge information. As abnormalities in human tissue, such as tumors and lesions, may greatly vary in structure, texture, and shape, high-frequency information such as texture is crucial for effective semantic segmentation tasks. To address this limitation in ViT models, we propose a new technique, Laplacian-Former, that enhances the self-attention map by adaptively re-calibrating the frequency information in a Laplacian pyramid. More specifically, our proposed method utilizes a dual attention mechanism via efficient attention and frequency attention while the efficient attention mechanism reduces the complexity of self-attention to linear while producing the same output, selectively intensifying the contribution of shape and texture features. Furthermore, we introduce a novel efficient enhancement multi-scale bridge that effectively transfers spatial information from the encoder to the decoder while preserving the fundamental features. 
 
+<br>
+
+<p align="center">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/6b223292-dad3-4e4d-835b-eea070626437" width="800">
+</p>
+
+<p align="center">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/3e89f667-8989-4594-afcf-fac3d3784e40" width="800">
+</p>
 
 ## Citation
-```bibtex
-@inproceedings{azad2023unlocking,
 
+```bibtex
+@misc{azad2023laplacianformer,
+      title={Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection}, 
+      author={Reza Azad and Amirhossein Kazerouni and Babak Azad and Ehsan Khodapanah Aghdam and Yury Velichko and Ulas Bagci and Dorit Merhof},
+      year={2023},
+      eprint={2309.00108},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
 ```
 
@@ -37,6 +51,14 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
     --eval_interval [Evaluation epoch]
     ```
 
+> <picture>
+>   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/note.svg">
+>   <img alt="Note" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/note.svg">
+> </picture><br>
+>
+> For information regarding training the skin dataset, please refer to this [link](https://github.com/mindflow-institue/deformableLKA/tree/main/2D).
+
+
 ## Test 
 
 1) Download the learned weights from the below link:
@@ -45,10 +67,9 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
     -----------|-------|----------------
     Synapse   | Laplacian-Former   | [Soon!]()
 
-
 <br>
 
-2) Run the below code to test model on the synapse dataset.
+2) Run the below code to test the model on the synapse dataset.
   
     
     ```bash
@@ -66,15 +87,25 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
   
 ## Experiments
+For evaluating the performance of the proposed method, two challenging tasks in medical image segmentation have been considered: Synapse Dataset and ISIC 2018 Dataset.
 
 ### Synapse Dataset
 
+<p align="center">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/fdba1be4-9284-44f3-b95e-54be11f62d7f" width="800">
+</p>
+
+<p align="center">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/cf28ac49-fe3d-4cb4-be81-fb6fa9af688f" width="800">
+</p>
 
 ### ISIC 2018 Dataset
+
+<p align="center">
+  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/3204a479-243f-4c06-896f-9bb7fa01f9ba" width="800">
+</p>
 
 
 ## References
 - [DAEFormer](https://github.com/mindflow-institue/DAEFormer)
-=======
-Code coming soon ...
->>>>>>> f1d3f3cf21934c7b8dff4ac180d8cf8141525e10
+- [HiFormer](https://github.com/amirhossein-kz/HiFormer)
