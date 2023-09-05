@@ -10,10 +10,6 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
   <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/6b223292-dad3-4e4d-835b-eea070626437" width="800">
 </p>
 
-<p align="center">
-  <img src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/3e89f667-8989-4594-afcf-fac3d3784e40" width="800">
-</p>
-
 ## Citation
 
 ```bibtex
