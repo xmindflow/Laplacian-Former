@@ -1,0 +1,15 @@
+einops
+h5py
+imgaug
+matplotlib
+MedPy
+numpy
+opencv_python==4.6.0.66
+pandas
+scipy
+SimpleITK
+tensorboardX
+timm
+torch
+torchvision
+tqdm
