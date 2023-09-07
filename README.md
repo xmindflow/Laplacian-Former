@@ -12,14 +12,12 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
 ## Citation
 
-```bibtex
-@misc{azad2023laplacianformer,
-      title={Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection}, 
-      author={Reza Azad and Amirhossein Kazerouni and Babak Azad and Ehsan Khodapanah Aghdam and Yury Velichko and Ulas Bagci and Dorit Merhof},
-      year={2023},
-      eprint={2309.00108},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+```python
+@article{azad2023laplacian,
+  title={Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection},
+  author={Azad, Reza and Kazerouni, Amirhossein and Azad, Babak and Aghdam, Ehsan Khodapanah and Velichko, Yury and Bagci, Ulas and Merhof, Dorit},
+  journal={arXiv preprint arXiv:2309.00108},
+  year={2023}
 }
 ```
 
