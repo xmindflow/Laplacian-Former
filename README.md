@@ -35,17 +35,30 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
     ```
 
 4) Run the below code to train the model on the synapse dataset.
+  > <picture>
+  >   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/note.svg">
+  >   <img alt="Note" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/note.svg">
+  > </picture><br>
+  >
+  >    If you want to train the compact version of the model with only three encoders, replace the `train.py` with `train_compact.py`.
 
-    ```python
-    python train.py --root_path ./data/Synapse/train_npz --test_path ./data/Synapse/test_vol_h5  --batch_size 24 --eval_interval 20 --max_epochs 400 
-   ```
+  ```python
+    python train.py --root_path ./data/Synapse/train_npz --test_path ./data/Synapse/test_vol_h5  --batch_size 24 --eval_interval 20 --max_epochs 400 --dst_fast --resume --model_path [MODEL PATH]
+  ```
+    
    ```
     --root_path    [Train data path]
 
     --test_path    [Test data path]
 
     --eval_interval [Evaluation epoch]
-    ```
+
+    --dst_fast [Optional] [Load all data into RAM for faster training]
+
+    --resume [Optional] [Resume from checkpoint]
+
+    --model_path [Optional] [Provide the path to the latest checkpoint file for loading the model.]
+   ```
 
 > <picture>
 >   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/note.svg">
@@ -59,9 +72,9 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 
 1) Download the learned weights from the below link:
 
-    Dataset   | Model | download link 
+    Dataset   | Model | Download link 
     -----------|-------|----------------
-    Synapse   | Laplacian-Former   | [Soon!]()
+    Synapse   | Laplacian-Former   | [Download](https://drive.google.com/uc?export=download&id=1StaVExctaAFLaq9-onZVu2EtiglimD1n)
 
 <br>
 
