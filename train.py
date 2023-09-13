@@ -6,10 +6,10 @@ import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 from networks.LaplacianFormer import LaplacianFormer
-
-
 from trainer import trainer_synapse
 import warnings
+
+
 warnings.filterwarnings('ignore')
 
 parser = argparse.ArgumentParser()
@@ -26,9 +26,9 @@ parser.add_argument('--dst_fast', action='store_true',
 parser.add_argument('--num_classes', type=int,
                     default=9, help='output channel of network')
 parser.add_argument('--n_skip_bridge', type=int,
-                    default=1, help='output channel of network')
+                    default=1, help='Number of skip connections (repeat the skip connection $n$ times)')
 parser.add_argument('--pyramid_levels', type=int,
-                    default=4, help='output channel of network')
+                    default=4, help='Number of pyramid levels')
 parser.add_argument('--model_path', type=str,
                     default='./model_out/best_model.pth', help='model path')
 parser.add_argument('--resume', action='store_true', help='resume from checkpoint')
@@ -59,9 +59,8 @@ parser.add_argument('--z_spacing', type=int,
 parser.add_argument('--seed', type=int,
                     default=1234, help='random seed')
 
-
-
 args = parser.parse_args()
+
 
 args.output_dir = args.output_dir + f'/{args.model_name}'
 os.makedirs(args.output_dir, exist_ok=True)
