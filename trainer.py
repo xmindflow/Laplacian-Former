@@ -16,11 +16,12 @@ from utils import DiceLoss
 from torchvision import transforms
 from utils import test_single_volume
 from torch.nn import functional as F
-from datasets.dataset_synapse import Synapse_dataset, RandomGenerator
-
+from datasets.dataset_synapse import RandomGenerator, Synapse_dataset, SynapseDatasetFast
+from glob import glob
 import matplotlib.pyplot as plt
 import pandas as pd
 import datetime
+
 
 def inference(model, testloader, args, test_save_path=None):
     model.eval()
@@ -90,7 +91,12 @@ def trainer_synapse(args, model, snapshot_path):
     ])
     y_transforms = transforms.ToTensor()
 
-    db_train = Synapse_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",img_size=args.img_size,
+    if args.dst_fast:
+        print("\n\nUSING FAST DATASET...\n")
+        db_train = SynapseDatasetFast(base_dir=args.root_path, list_dir=args.list_dir, split="train",img_size=args.img_size,
+                               norm_x_transform = x_transforms, norm_y_transform = y_transforms)
+    else:
+        db_train = Synapse_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",img_size=args.img_size,
                                norm_x_transform = x_transforms, norm_y_transform = y_transforms)
 
     print("The length of train set is: {}".format(len(db_train)))
@@ -103,6 +109,18 @@ def trainer_synapse(args, model, snapshot_path):
     db_test = Synapse_dataset(base_dir=args.test_path, split="test_vol", list_dir=args.list_dir, img_size=args.img_size)
     testloader = DataLoader(db_test, batch_size=1, shuffle=False, num_workers=1)
 
+    # Use checkpoint
+    max_epoch = args.max_epochs
+
+    if args.resume:
+        model_items = torch.load(args.model_path)
+        model.load_state_dict(model_items['model'])
+        iter_num = model_items['niters']
+        epoch_num = model_items['epoch']
+    else:
+        epoch_num = 0
+        iter_num = 0
+
     if args.n_gpu > 1:
         model = nn.DataParallel(model)
 
@@ -112,13 +130,12 @@ def trainer_synapse(args, model, snapshot_path):
     dice_loss = DiceLoss(num_classes)
     optimizer = optim.SGD(model.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)
     writer = SummaryWriter(snapshot_path + '/log')
-    iter_num = 0
     max_epoch = args.max_epochs
     max_iterations = args.max_epochs * len(trainloader)  # max_epoch = max_iterations // len(trainloader) + 1
     logging.info("{} iterations per epoch. {} max iterations ".format(len(trainloader), max_iterations))
 
 
-    iterator = tqdm(range(max_epoch), ncols=70)
+    iterator = tqdm(epoch_num, range(max_epoch), ncols=70)
     dice_=[]
     hd95_= []
 
@@ -164,8 +181,12 @@ def trainer_synapse(args, model, snapshot_path):
         if epoch_num >= int(max_epoch / 2) and (epoch_num + 1) % eval_interval == 0:
             filename = f'{args.model_name}_epoch_{epoch_num}.pth'
             save_mode_path = os.path.join(snapshot_path, filename)
-            torch.save(model.state_dict(), save_mode_path)
+            state = {'niters': iter_num,
+                    'epoch': epoch_num,
+                    'model': model.state_dict()}
+            torch.save(state, save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
+                     
             
             logging.info("*" * 20)
             logging.info(f"Running Inference after epoch {epoch_num}")
@@ -178,7 +199,10 @@ def trainer_synapse(args, model, snapshot_path):
         if epoch_num >= max_epoch - 1:
             filename = f'{args.model_name}_epoch_{epoch_num}.pth'
             save_mode_path = os.path.join(snapshot_path, filename)
-            torch.save(model.state_dict(), save_mode_path)
+            state = {'niters': iter_num,
+                    'epoch': epoch_num,
+                    'model': model.state_dict()}
+            torch.save(state, save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
             
             if not (epoch_num + 1) % args.eval_interval == 0:

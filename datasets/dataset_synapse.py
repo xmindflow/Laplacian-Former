@@ -126,3 +126,67 @@ class Synapse_dataset(Dataset):
             sample['label'] = self.norm_y_transform(sample['label'].copy())
         sample['case_name'] = self.sample_list[idx].strip('\n')
         return sample
+
+
+class SynapseDatasetFast(Dataset):
+    def __init__(self, base_dir, list_dir, split, img_size, norm_x_transform=None, norm_y_transform=None):
+        self.norm_x_transform = norm_x_transform
+        self.norm_y_transform = norm_y_transform
+        self.split = split
+        self.sample_list = [d.strip('\n') for d in open(os.path.join(list_dir, self.split+'.txt')).readlines()]
+        self.data_dir = base_dir
+        self.img_size = img_size
+
+        self.img_aug = iaa.SomeOf((0,4),[
+            iaa.Flipud(0.5, name="Flipud"),
+            iaa.Fliplr(0.5, name="Fliplr"),
+            iaa.AdditiveGaussianNoise(scale=0.005 * 255),
+            iaa.GaussianBlur(sigma=(1.0)),
+            iaa.LinearContrast((0.5, 1.5), per_channel=0.5),
+            iaa.Affine(scale={"x": (0.5, 2), "y": (0.5, 2)}),
+            iaa.Affine(rotate=(-40, 40)),
+            iaa.Affine(shear=(-16, 16)),
+            iaa.PiecewiseAffine(scale=(0.008, 0.03)),
+            iaa.Affine(translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)})
+        ], random_order=True)
+        
+        self.__load_all_data()
+        
+    
+    def __load_all_data(self):
+        self.images, self.labels = [], []
+        for sample in tqdm(self.sample_list, desc="loading all slices"):
+            data_path = os.path.join(self.data_dir, sample+'.npz')
+            data = np.load(data_path)
+            image, label = data['image'], data['label']
+            
+            self.images.append(image)
+            self.labels.append(label)
+
+
+    def __len__(self):
+        return len(self.sample_list)
+
+    
+    def __getitem__(self, idx):
+        if self.split == "train":
+            image, label = self.images[idx], self.labels[idx]
+            image, label = augment_seg(self.img_aug, image, label)
+            x, y = image.shape
+            if x != self.img_size or y != self.img_size:
+                image = zoom(image, (self.img_size / x, self.img_size / y), order=3)  # why not 3?
+                label = zoom(label, (self.img_size / x, self.img_size / y), order=0)
+
+        else:
+            vol_name = self.sample_list[idx]
+            filepath = self.data_dir + "/{}.npy.h5".format(vol_name)
+            data = h5py.File(filepath)
+            image, label = data['image'][:], data['label'][:]
+
+        sample = {'image': image, 'label': label}
+        if self.norm_x_transform is not None:
+            sample['image'] = self.norm_x_transform(sample['image'].copy())
+        if self.norm_y_transform is not None:
+            sample['label'] = self.norm_y_transform(sample['label'].copy())
+        sample['case_name'] = self.sample_list[idx]
+        return sample

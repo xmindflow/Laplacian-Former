@@ -5,7 +5,7 @@ import random
 import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
-from networks.LaplacianFormer import LaplacianFormer
+from networks.LaplacianFormerCompact import LaplacianFormer
 
 from trainer import trainer_synapse
 import warnings
@@ -13,13 +13,18 @@ warnings.filterwarnings('ignore')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str,
-                    default='/images/PublicDataset/Transunet_synaps/project_TransUNet/data/Synapse/train_npz', help='root dir for data')
+                    default='/cabinet/dataset/Synapse/train_npz', help='root dir for data')
 parser.add_argument('--test_path', type=str,
-                    default='/images/PublicDataset/Transunet_synaps/project_TransUNet/data/Synapse/test_vol_h5', help='root dir for data')
+                    default='/cabinet/dataset/Synapse/test_vol_h5', help='root dir for data')
 parser.add_argument('--dataset', type=str,
                     default='Synapse', help='experiment_name')
 parser.add_argument('--list_dir', type=str,
                     default='./lists/lists_Synapse', help='list dir')
+
+
+parser.add_argument('--model_path', type=str,
+                    default='./model_out/laplac14v3/laplac14v3_epoch_459.pth', help='model path')
+
 parser.add_argument('--dst_fast', type=bool,
                     default=True, help='SynapseDatasetFast: will load all data into RAM')
 parser.add_argument('--num_classes', type=int,
@@ -27,10 +32,7 @@ parser.add_argument('--num_classes', type=int,
 parser.add_argument('--n_skip_bridge', type=int,
                     default=1, help='output channel of network')
 parser.add_argument('--pyramid_levels', type=int,
-                    default=4, help='output channel of network')
-parser.add_argument('--model_path', type=str,
-                    default='./model_out/laplac14v3/laplac14v3_epoch_459.pth', help='model path')
-parser.add_argument('--resume', help='resume from checkpoint')
+                    default=3, help='output channel of network')
 
 parser.add_argument('--output_dir', type=str, 
                     default='./model_out',help='output dir')                   
@@ -39,7 +41,7 @@ parser.add_argument('--max_iterations', type=int,
 parser.add_argument('--max_epochs', type=int,
                     default=400, help='maximum epoch number to train')
 parser.add_argument('--batch_size', type=int,
-                    default=32, help='batch_size per gpu')
+                    default=24, help='batch_size per gpu')
 parser.add_argument('--num_workers', type=int,
                     default=4, help='num_workers')
 parser.add_argument('--eval_interval', type=int,
@@ -57,8 +59,6 @@ parser.add_argument('--z_spacing', type=int,
                     default=1, help='z_spacing')
 parser.add_argument('--seed', type=int,
                     default=1234, help='random seed')
-
-
 
 args = parser.parse_args()
 

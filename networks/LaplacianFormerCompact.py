@@ -210,7 +210,6 @@ class Encoder(nn.Module):
             (7, 4, 3),
             (3, 2, 1),
             (3, 2, 1),
-            (3, 2, 1)
         ]
 
         self.patch_embeds = nn.ModuleList()
@@ -291,29 +290,29 @@ class SkipConnection(nn.Module):
 
         self.att_levels = nn.ModuleList([
             EfficientAttentionScore(in_dim[i], in_dim[0], in_dim[0])
-            for i in range(4)
+            for i in range(3)
         ])
 
         self.mlps = nn.ModuleList([
             MixFFN_skip(in_dim[i], int(in_dim[i] * 4))
-            for i in range(4)
+            for i in range(3)
         ])
 
         self.norm_mlps = nn.ModuleList([
             nn.LayerNorm(in_dim[i])
-            for i in range(4)
+            for i in range(3)
         ])
 
         self.query_convs = nn.ModuleList([
             nn.Conv2d(in_dim[i], in_dim[i], 1)
-            for i in range(4)
+            for i in range(3)
         ])
 
     def forward(self, inputs):
-        c1, c2, c3, c4 = inputs
+        c1, c2, c3= inputs
         B, C, _, _ = c1.shape
 
-        att_scores = [att(c, c.shape[2], c.shape[3]) for att, c in zip(self.att_levels, [c1, c2, c3, c4])]
+        att_scores = [att(c, c.shape[2], c.shape[3]) for att, c in zip(self.att_levels, inputs)]
 
         sum_attentions = sum(att_scores)
 
@@ -345,7 +344,7 @@ class PatchExpand(nn.Module):
         H, W = self.input_resolution
         x = self.expand(x)
         B, L, C = x.shape
-        assert L == H * W, "input feature has wrong size"
+#         assert L == H * W, "input feature has wrong size"
 
         x = x.view(B, H, W, C)
         if self.dim_scale == 2:
@@ -421,10 +420,10 @@ class LaplacianFormer(nn.Module):
         self.n_skip_bridge = n_skip_bridge
         
         # Encoder configurations
-        params = [[64, 128, 320, 512],  # dims
-                  [64, 128, 320, 512],  # key_dim
-                  [64, 128, 320, 512],  # value_dim
-                  [2, 2, 2, 2]]        # layers
+        params = [[128, 320, 512],  # dims
+                  [128, 320, 512],  # key_dim
+                  [128, 320, 512],  # value_dim
+                  [2, 2, 2]]        # layers
         
         self.encoder = Encoder(image_size=224, in_dim=params[0], key_dim=params[1], value_dim=params[2],
                                layers=params[3], pyramid_levels=pyramid_levels, token_mlp=token_mlp_mode)
@@ -436,13 +435,12 @@ class LaplacianFormer(nn.Module):
         
         # Decoder configurations
         d_base_feat_size = 7  # 16 for 512 input size, and 7 for 224
-        in_out_chan = [[32, 64, 64, 64],     # [dim, out_dim, key_dim, value_dim]
-                       [144, 128, 128, 128], 
+        in_out_chan = [[72, 128, 128, 128], # [dim, out_dim, key_dim, value_dim]
                        [288, 320, 320, 320], 
                        [512, 512, 512, 512]] 
 
         self.decoders = nn.ModuleList()
-        for i in range(4):
+        for i in range(1, 4):
             in_dim = d_base_feat_size * 2**i
             decoder = MyDecoderLayer((in_dim, in_dim), in_out_chan[3-i], token_mlp_mode,
                                      n_class=num_classes, pyramid_levels=pyramid_levels, is_last=(i==3), is_first=(i==0))
@@ -460,15 +458,14 @@ class LaplacianFormer(nn.Module):
         for i, skip_bridge in enumerate(self.skip_bridges):
             output_enc = skip_bridge(output_enc)
             skip_outputs.append(output_enc) 
-            output_enc = [y.permute(0, 3, 1 ,2) for y in output_enc]
+            output_enc = [y.permute(0, 3, 1, 2) for y in output_enc]
      
         
         # Decoder
         output_enc = skip_outputs[-1]
-        b, _, _, c = output_enc[3].shape
-        out = self.decoders[0](output_enc[3].view(b,-1,c))        
-        out = self.decoders[1](out, output_enc[2])
-        out = self.decoders[2](out, output_enc[1])
-        out = self.decoders[3](out, output_enc[0])
+        b, _, _, c = output_enc[2].shape
+        out = self.decoders[0](output_enc[2].view(b,-1,c))
+        out = self.decoders[1](out, output_enc[1])
+        out = self.decoders[2](out, output_enc[0])
                 
         return out
