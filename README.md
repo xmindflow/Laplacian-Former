@@ -97,12 +97,12 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
   
 ## Experiments
 For evaluating the performance of the proposed method, two challenging tasks in medical image segmentation have been considered: Synapse Dataset and ISIC 2018 Dataset. The proposed Laplacian-Former achieves superior segmentation performance.
+> Our results in the table are updated according to the model weight. 
 
 <p align="center">
-  <img style="width: 69%;" alt="Synapse results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/061d903c-c075-44f2-ab08-52580dfbe296">
-  <img style="width: 30%;" alt="ISIC results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/44e3f784-47c1-4212-aa93-dc3cbc6b6485">
+  <img style="width: 90%;" alt="Synapse results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/0c93b40f-30ec-4f93-b026-c1c72becdbec">
+  <img style="width: 46%;" alt="ISIC results" src="https://github.com/mindflow-institue/Laplacian-Former/assets/61879630/44e3f784-47c1-4212-aa93-dc3cbc6b6485">
 </p>
-
 
 
 ## References
