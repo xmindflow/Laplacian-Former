@@ -32,7 +32,9 @@ parser.add_argument('--deterministic', type=int,  default=1, help='whether use d
 parser.add_argument('--seed', type=int, default=1234, help='random seed')
 parser.add_argument('--pretrained_path', type=str,
                     default='./results/LaplacianFormer.pth', help='Pretrained model path')
-
+parser.add_argument('--z_spacing', type=int,
+                    default=1, help='z_spacing')
+                    
 args = parser.parse_args()
 
 
@@ -40,7 +42,7 @@ def inference(args, testloader, model, test_save_path=None):
     logging.info("{} test iterations per epoch".format(len(testloader)))
     model.eval()
     metric_list = 0.0
-    
+
     for i_batch, sampled_batch in tqdm(enumerate(testloader)):
         h, w = sampled_batch["image"].size()[2:]
         image, label, case_name = sampled_batch["image"], sampled_batch["label"], sampled_batch['case_name'][0]
@@ -49,14 +51,14 @@ def inference(args, testloader, model, test_save_path=None):
         metric_list += np.array(metric_i)
         logging.info(' idx %d case %s mean_dice %f mean_hd95 %f' % (i_batch, case_name, np.mean(metric_i, axis=0)[0], np.mean(metric_i, axis=0)[1]))
     
-    metric_list = metric_list / len(db_test)
-
+    metric_list = metric_list / len(testloader.dataset)
+    
     for i in range(1, args.num_classes):
         logging.info('Mean class %d mean_dice %f mean_hd95 %f' % (i, metric_list[i-1][0], metric_list[i-1][1]))
     
     performance = np.mean(metric_list, axis=0)[0]
     mean_hd95 = np.mean(metric_list, axis=0)[1]
-
+    
     logging.info('Testing performance in best val model: mean_dice : %f mean_hd95 : %f' % (performance, mean_hd95))
     
     return "Testing Finished!"
@@ -82,12 +84,12 @@ if __name__ == "__main__":
     logging.info(str(args))
 
     # Loading dataset
-    db_test = Synapse_dataset(base_dir=args.test_path, split="test_vol", list_dir=args.list_dir)
+    db_test = Synapse_dataset(base_dir=args.test_path, split="test_vol", list_dir=args.list_dir, img_size=args.img_size)
     testloader = DataLoader(db_test, batch_size=1, shuffle=False, num_workers=1)
 
     # Loading model
     model = LaplacianFormer(num_classes=9).cuda()
-    msg = model.load_state_dict(torch.load(args.pretrained_path))
+    msg = model.load_state_dict(torch.load(args.pretrained_path)['model'])
     print("Laplacian-Former Model: ", msg)
 
     inference(args, testloader, model, test_save_path=(args.output_dir if args.is_savenii else None))

@@ -7,6 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from networks.LaplacianFormer import LaplacianFormer
 
+
 from trainer import trainer_synapse
 import warnings
 warnings.filterwarnings('ignore')
@@ -20,8 +21,8 @@ parser.add_argument('--dataset', type=str,
                     default='Synapse', help='experiment_name')
 parser.add_argument('--list_dir', type=str,
                     default='./lists/lists_Synapse', help='list dir')
-parser.add_argument('--dst_fast', type=bool,
-                    default=True, help='SynapseDatasetFast: will load all data into RAM')
+parser.add_argument('--dst_fast', action='store_true',
+                    help='SynapseDatasetFast: will load all data into RAM')
 parser.add_argument('--num_classes', type=int,
                     default=9, help='output channel of network')
 parser.add_argument('--n_skip_bridge', type=int,
@@ -29,8 +30,8 @@ parser.add_argument('--n_skip_bridge', type=int,
 parser.add_argument('--pyramid_levels', type=int,
                     default=4, help='output channel of network')
 parser.add_argument('--model_path', type=str,
-                    default='./model_out/laplac14v3/laplac14v3_epoch_459.pth', help='model path')
-parser.add_argument('--resume', help='resume from checkpoint')
+                    default='./model_out/best_model.pth', help='model path')
+parser.add_argument('--resume', action='store_true', help='resume from checkpoint')
 
 parser.add_argument('--output_dir', type=str, 
                     default='./model_out',help='output dir')                   

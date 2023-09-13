@@ -8,6 +8,7 @@ from scipy.ndimage.interpolation import zoom
 from torch.utils.data import Dataset
 import imgaug as ia
 import imgaug.augmenters as iaa  # 导入iaa
+from tqdm import tqdm
 
 
 def mask_to_onehot(mask, ):
@@ -126,8 +127,8 @@ class Synapse_dataset(Dataset):
             sample['label'] = self.norm_y_transform(sample['label'].copy())
         sample['case_name'] = self.sample_list[idx].strip('\n')
         return sample
-
-
+    
+    
 class SynapseDatasetFast(Dataset):
     def __init__(self, base_dir, list_dir, split, img_size, norm_x_transform=None, norm_y_transform=None):
         self.norm_x_transform = norm_x_transform

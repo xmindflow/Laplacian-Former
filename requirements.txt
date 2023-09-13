@@ -6,7 +6,7 @@ MedPy
 numpy
 opencv_python==4.6.0.66
 pandas
-scipy
+scipy==1.10
 SimpleITK
 tensorboardX
 timm

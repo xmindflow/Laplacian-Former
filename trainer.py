@@ -117,6 +117,7 @@ def trainer_synapse(args, model, snapshot_path):
         model.load_state_dict(model_items['model'])
         iter_num = model_items['niters']
         epoch_num = model_items['epoch']
+        logging.info(f'The pre-trained model is loaded from Epoch {epoch_num} and iter {iter_num}!')
     else:
         epoch_num = 0
         iter_num = 0
@@ -135,7 +136,7 @@ def trainer_synapse(args, model, snapshot_path):
     logging.info("{} iterations per epoch. {} max iterations ".format(len(trainloader), max_iterations))
 
 
-    iterator = tqdm(epoch_num, range(max_epoch), ncols=70)
+    iterator = tqdm(range(epoch_num, max_epoch), ncols=70)
     dice_=[]
     hd95_= []
 
@@ -159,7 +160,6 @@ def trainer_synapse(args, model, snapshot_path):
                 param_group['lr'] = lr_
 
             iter_num = iter_num + 1
-            writer.add_scalar('info/lr', lr_, iter_num)
             writer.add_scalar('info/total_loss', loss, iter_num)
             writer.add_scalar('info/loss_ce', loss_ce, iter_num)
             writer.add_scalar('info/loss_dice', loss_dice, iter_num)
