@@ -1,4 +1,4 @@
-# Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection <br> <span style="float: right"><sub><sup>$\text{\textcolor{teal}{MICCAI 2023}}$</sub></sup></span>
+# Laplacian-Former: Overcoming the Limitations of Vision Transformers in Local Texture Detection <br> <span style="float: right"><sub><sup>MICCAI 2023</sub></sup></span>
 
 [![arXiv](https://img.shields.io/badge/arXiv-2309.00108-b31b1b.svg)](https://arxiv.org/abs/2309.00108)
 
@@ -22,7 +22,7 @@ Vision Transformer (ViT) models have demonstrated a breakthrough in a wide range
 ```
 
 ## News
-- May 25, 2023: Accepted in **MICCAI 2023**! 🥳🔥
+- May 25, 2023: Early Accepted in **MICCAI 2023**! 🥳🔥
 
 ## Train
 
